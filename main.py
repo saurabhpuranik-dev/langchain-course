@@ -1,6 +1,8 @@
 from dotenv import load_dotenv
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI
+from langchain_core.prompts import PromptTemplate
+from langchain_core.prompts import prompt
 
 load_dotenv()
 
@@ -13,16 +15,15 @@ def main():
     known for Tesla, SpaceX, X, and xAI.
     """
 
-    prompt = ChatPromptTemplate.from_template(
-        """
-        With the given information below:
+    summary_template = """
+    from given information {information} about a person I want you to create 
+    1) short summary
+    2) two interresting facts about them
 
-        {information}
+"""
 
-        Please provide:
-        1) A short summary
-        2) 3 interesting facts
-        """
+    summary_prompt_template = PromptTemplate(
+        input_variables=[information], template=summary_prompt_template
     )
 
     llm = ChatOpenAI(
@@ -31,7 +32,7 @@ def main():
         max_tokens=120
     )
 
-    chain = prompt | llm
+    chain = summary_prompt_template | llm
 
     response = chain.invoke({"information": information})
 
