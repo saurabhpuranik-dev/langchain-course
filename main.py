@@ -26,7 +26,7 @@ def main():
     )
 
     llm = ChatOpenAI(
-        model="gpt-5",
+        model="gpt-4o-mini",
         temperature=0,
     )
 
